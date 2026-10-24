@@ -1,0 +1,31 @@
+# Knowledge Hub 配置文件
+
+data_dir: ./data
+host: 0.0.0.0
+port: 8080
+transport: sse            # sse | stdio
+
+# 图谱查询参数
+graph:
+  default_top_k: 10
+  neighbor_depth: 1       # 匹配节点向外扩展的跳数
+
+# 文档检索参数
+docs:
+  default_top_k: 10
+  chunk_max_chars: 2000   # 单 chunk 最大字符数
+
+# Embedding 语义检索配置
+embedding:
+  backend: local          # local | openai
+  model: BAAI/bge-small-zh-v1.5   # 本地模型名（backend=local 时生效）
+  # openai_api_key: sk-xxx  # backend=openai 时必填（建议用环境变量 OPENAI_API_KEY）
+  # openai_model: text-embedding-3-small  # backend=openai 时可选
+  batch_size: 32          # 批量生成 embedding 的批次大小
+  enabled: true           # 设为 false 可退化为纯 FTS5 模式
+
+# 混合检索参数
+retrieval:
+  rrf_k: 60               # RRF 融合公式中的 k 值
+  fts_weight: 0.4         # FTS5 结果权重（0-1）
+  embed_weight: 0.6       # Embedding 结果权重（0-1）
